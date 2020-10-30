@@ -5,12 +5,17 @@ from sklearn import svm, preprocessing
 
 df = pd.read_excel(r'dataset.xlsx', index_col=0)
 df.head()
-# print(df)
+print(df)
 
-df = df.fillna(0)       # filling empty cells with zero
+# exame_dictionary = {"detected": 1, "not_detected": 0}   # dictionary for string values in cells
+# df = df.map(exame_dictionary)       # replacing string values
+# df.head()
 
-# printing the label results for this column
-print(df["SARS-Cov-2 exam result"].unique())
+# df[df.columns] = df[df.columns].apply(pd.to_numeric, errors='coerce')
+df.fillna(df.median(), inplace=True)       # filling empty cells with median value
+# print(df.isnull().any())         # checking if there are any empyt cells left
+
+# print(df["SARS-Cov-2 exam result"].unique())    # printing the label results for this column
 
 # shuffle rows
 df = sklearn.utils.shuffle(df)
@@ -18,7 +23,7 @@ print(df)
 
 # feature set
 X = df.drop("SARS-Cov-2 exam result", axis=1).values
-# X = preprocessing.scale(X) 
+# X = preprocessing.scale(X)        # bring data into one scale
 print("\n X = \n", X)
 
 # labels
