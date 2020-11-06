@@ -26,7 +26,17 @@ dataset= dataset.replace(['not_done'], float(-1))
 dataset=dataset.fillna(dataset.median ())
 
 #Setando valores de Feature set (conjunto de variáveis) e labels
-X = dataset.loc[:, ["Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Alanine transaminase", "Aspartate transaminase", "Lactic Dehydrogenase", "Albumin", "Hb saturation (arterial blood gases)", "pCO2 (arterial blood gas analysis)"]]
+# X = dataset.loc[:, ["Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Alanine transaminase", "Aspartate transaminase", "Lactic Dehydrogenase", "Albumin", "Hb saturation (arterial blood gases)", "pCO2 (arterial blood gas analysis)"]]
+X = dataset.iloc[:, [ 1, 3, 4, 5, 6, 7, 8, 9, 10, 11]].values
+# X = dataset.iloc[:, [ 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]].values
+# X = dataset.iloc[:, [ 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]].values       # ERRO
+# X = dataset.iloc[:, [ 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]].values
+# X = dataset.iloc[:, [ 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]].values
+# X = dataset.iloc[:, [ 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]].values
+# X = dataset.iloc[:, [ 62, 63, 64, 65, 66, 67, 68, 69, 70, 71]].values       # ERRO
+# X = dataset.iloc[:, [ 72, 73, 74, 75, 76, 77, 78, 79, 80, 81]].values       # ERRO
+# X = dataset.iloc[:, [ 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]].values       # ERRO
+# X = dataset.iloc[:, [ 92, 93, 94, 95, 96, 97, 98, 99, 100, 111]].values     # ERRO
 y = dataset.loc[:, "SARS-Cov-2 exam result"]
 
 #Separando a porção de treino e de teste
@@ -77,10 +87,11 @@ import matplotlib.pyplot as plt
 # Carrega visualização JS
 shap.initjs()
 
-# Explioca as predições do modelo usando valores SHAP
+# Explica as predições do modelo usando valores SHAP
 explainer = shap.TreeExplainer(rf)
 shap_values = explainer.shap_values(X_train, approximate=True)
 
 #Plota gráfico, salvo na mesma pasta do código
-shap.summary_plot(shap_values[1], X_train, show=False, max_display=10)
-plt.savefig('shap_graph1.png', bbox_inches='tight')
+# shap.summary_plot(shap_values[1], X_train, show=False, max_display=10)
+shap.plot.summary(shap_values)
+plt.savefig('exam_all_10.png', bbox_inches='tight')
