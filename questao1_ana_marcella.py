@@ -91,7 +91,8 @@ shap.initjs()
 explainer = shap.TreeExplainer(rf)
 shap_values = explainer.shap_values(X_train, approximate=True)
 
+nomes = ["Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Alanine transaminase", "Aspartate transaminase", "Lactic Dehydrogenase", "Albumin", "Hb saturation (arterial blood gases)", "pCO2 (arterial blood gas analysis)"]
 #Plota gráfico, salvo na mesma pasta do código
-# shap.summary_plot(shap_values[1], X_train, show=False, max_display=10)
-shap.plot.summary(shap_values)
-plt.savefig('exam_all_10.png', bbox_inches='tight')
+
+shap.summary_plot(shap_values[1], X_train, show=False, max_display=10, feature_names=nomes)
+plt.savefig('shap_graph1.png', bbox_inches='tight')
