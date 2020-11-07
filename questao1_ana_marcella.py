@@ -16,14 +16,21 @@ import numpy as np
 dataset = pd.read_excel(r'dataset.xlsx')
 
 #Substituição de dados não numéricos em representações numéricas
-dataset = dataset.replace(['negative'], 0)
-dataset= dataset.replace(['positive'], 1)
-dataset = dataset.replace(['not_detected'], 0)
-dataset= dataset.replace(['detected'], 1)
+dataset = dataset.replace(['negative'], float(0))
+dataset= dataset.replace(['positive'], float(1))
+dataset = dataset.replace(['not_detected'], float(0))
+dataset= dataset.replace(['detected'], float(1))
 dataset= dataset.replace(['not_done'], float(-1))
+dataset= dataset.replace(['absent'], float(0))
+dataset= dataset.replace(['present'], float(1))
+dataset = dataset.replace(['normal'], float(0))
+dataset = dataset.replace(['Não Realizado'], float(-1))
+
 
 #Preenchimento de valores vazios
 dataset=dataset.fillna(dataset.median ())
+
+# print(dataset["Lipase dosage"].unique())
 
 #Setando valores de Feature set (conjunto de variáveis) e labels
 # X = dataset.loc[:, ["Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Alanine transaminase", "Aspartate transaminase", "Lactic Dehydrogenase", "Albumin", "Hb saturation (arterial blood gases)", "pCO2 (arterial blood gas analysis)"]]
@@ -56,7 +63,18 @@ dataset=dataset.fillna(dataset.median ())
 # X = dataset.loc[:, ["Sodium", "Alanine transaminase", "Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes"]]
 # X = dataset.loc[:, ["Patient age quantile", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Alanine transaminase", "Aspartate transaminase", "Hb saturation (arterial blood gases)", "Creatinine", "Potassium"]]
 # X = dataset.loc[:, ["Patient age quantile", "Hematocrit", "Proteina C reativa mg/dL", "Platelets", "Proteina C reativa mg/dL", "Red blood Cells", "Monocytes", "Leukocytes", "Eosinophils", "Hemoglobin"]]
-X = dataset.loc[:, ["Mean corpuscular hemoglobin concentration (MCHC)", "Leukocytes", "Basophils", "Mean corpuscular hemoglobin (MCH)", "Eosinophils", "Hb saturation (venous blood gas analysis)", "Base excess (venous blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)", "Aspartate transaminase", "Proteina C reativa mg/dL", "Urea", "ctO2 (arterial blood gas analysis)", "Neutrophils", "pCO2 (venous blood gas analysis)", "Mean corpuscular volume (MCV)", "Monocytes", "Red blood cell distribution width (RDW)", "Gamma-glutamyltransferase ", "Total Bilirubin", "Sodium", "Alanine transaminase", "Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", "Patient age quantile", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Alanine transaminase", "Aspartate transaminase", "Hb saturation (arterial blood gases)", "Creatinine", "Potassium"]]
+# X = dataset.loc[:, ["Mean corpuscular hemoglobin concentration (MCHC)", "Leukocytes", "Basophils", "Mean corpuscular hemoglobin (MCH)", "Eosinophils", "Hb saturation (venous blood gas analysis)", "Base excess (venous blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)", "Aspartate transaminase", "Proteina C reativa mg/dL", "Urea", "ctO2 (arterial blood gas analysis)", "Neutrophils", "pCO2 (venous blood gas analysis)", "Mean corpuscular volume (MCV)", "Monocytes", "Red blood cell distribution width (RDW)", "Gamma-glutamyltransferase ", "Total Bilirubin", "Sodium", "Alanine transaminase", "Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", "Patient age quantile", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Alanine transaminase", "Aspartate transaminase", "Hb saturation (arterial blood gases)", "Creatinine", "Potassium"]]
+# X = dataset.loc[:, ["Influenza A", "Influenza B", "Parainfluenza 1", "CoronavirusNL63", "Rhinovirus/Enterovirus",  "Coronavirus HKU1", "Parainfluenza 3", "Chlamydophila pneumoniae", "Adenovirus"]]
+
+X = dataset.loc[:, ["Patient age quantile", "Patient addmited to regular ward (1=yes, 0=no)", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", 
+        "Mean corpuscular hemoglobin concentration (MCHC)", "Leukocytes", "Basophils", "Mean corpuscular hemoglobin (MCH)", "Eosinophils", "Mean corpuscular volume (MCV)", "Monocytes", "Red blood cell distribution width (RDW)", "Serum Glucose", "Respiratory Syncytial Virus", "Influenza A",
+        "Influenza B", "Parainfluenza 1", "CoronavirusNL63", "Rhinovirus/Enterovirus",  "Coronavirus HKU1", "Parainfluenza 3", "Chlamydophila pneumoniae", "Adenovirus", "Parainfluenza 4", "Coronavirus229E", "CoronavirusOC43", "Inf A H1N1 2009", "Bordetella pertussis", "Metapneumovirus", 
+        "Parainfluenza 2", "Neutrophils", "Urea", "Proteina C reativa mg/dL", "Creatinine", "Potassium", "Sodium", "Influenza B, rapid test", "Influenza A, rapid test", "Alanine transaminase", "Aspartate transaminase", "Gamma-glutamyltransferase ", "Total Bilirubin", "Direct Bilirubin", 
+        "Indirect Bilirubin", "Alkaline phosphatase", "Ionized calcium ", "Strepto A", "Magnesium", "pCO2 (venous blood gas analysis)", "Hb saturation (venous blood gas analysis)", "Base excess (venous blood gas analysis)", "pO2 (venous blood gas analysis)", "Fio2 (venous blood gas analysis)",
+        "Total CO2 (venous blood gas analysis)", "pH (venous blood gas analysis)", "HCO3 (venous blood gas analysis)", "Rods #", "Segmented", "Promyelocytes", "Metamyelocytes", "Myelocytes", "Myeloblasts", "Urine - Esterase", "Urine - pH", "Urine - Yeasts", "Urine - Granular cylinders",
+        "Urine - Hyaline cylinders", "Urine - Hemoglobin", "Urine - Bile pigments", "Urine - Ketone Bodies", "Urine - Nitrite", "Urine - Urobilinogen", "Urine - Protein","Urine - Density", "Relationship (Patient/Normal)", "International normalized ratio (INR)", "Urine - Red blood cells",
+        "Lactic Dehydrogenase", "Creatine phosphokinase (CPK) ", "Ferritin", "Vitamin B12", "Arterial Lactic Acid", "Lipase dosage", "pCO2 (arterial blood gas analysis)", "Base excess (arterial blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)",
+        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)"]]
 
 y = dataset.loc[:, "SARS-Cov-2 exam result"]
 
@@ -122,7 +140,20 @@ shap_values = explainer.shap_values(X_train, approximate=True)
 # nomes = ["Sodium", "Alanine transaminase", "Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes"]
 # nomes = ["Patient age quantile", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Alanine transaminase", "Aspartate transaminase", "Hb saturation (arterial blood gases)", "Creatinine", "Potassium"]
 # nomes = ["Patient age quantile", "Hematocrit", "Proteina C reativa mg/dL", "Platelets", "Proteina C reativa mg/dL", "Red blood Cells", "Monocytes", "Leukocytes", "Eosinophils", "Hemoglobin"]
-nomes = ["Mean corpuscular hemoglobin concentration (MCHC)", "Leukocytes", "Basophils", "Mean corpuscular hemoglobin (MCH)", "Eosinophils", "Hb saturation (venous blood gas analysis)", "Base excess (venous blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)", "Aspartate transaminase", "Proteina C reativa mg/dL", "Urea", "ctO2 (arterial blood gas analysis)", "Neutrophils", "pCO2 (venous blood gas analysis)", "Mean corpuscular volume (MCV)", "Monocytes", "Red blood cell distribution width (RDW)", "Gamma-glutamyltransferase ", "Total Bilirubin", "Sodium", "Alanine transaminase", "Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", "Patient age quantile", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Alanine transaminase", "Aspartate transaminase", "Hb saturation (arterial blood gases)", "Creatinine", "Potassium"]
+# nomes = ["Mean corpuscular hemoglobin concentration (MCHC)", "Leukocytes", "Basophils", "Mean corpuscular hemoglobin (MCH)", "Eosinophils", "Hb saturation (venous blood gas analysis)", "Base excess (venous blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)", "Aspartate transaminase", "Proteina C reativa mg/dL", "Urea", "ctO2 (arterial blood gas analysis)", "Neutrophils", "pCO2 (venous blood gas analysis)", "Mean corpuscular volume (MCV)", "Monocytes", "Red blood cell distribution width (RDW)", "Gamma-glutamyltransferase ", "Total Bilirubin", "Sodium", "Alanine transaminase", "Hemoglobin", "Red blood Cells", "Lymphocytes", "Proteina C reativa mg/dL", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", "Patient age quantile", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Alanine transaminase", "Aspartate transaminase", "Hb saturation (arterial blood gases)", "Creatinine", "Potassium"]
+# nomes = ["Influenza A", "Influenza B", "Parainfluenza 1", "CoronavirusNL63", "Rhinovirus/Enterovirus",  "Coronavirus HKU1", "Parainfluenza 3", "Chlamydophila pneumoniae", "Adenovirus"]
+
+nomes = ["Patient age quantile", "Patient addmited to regular ward (1=yes, 0=no)", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", 
+        "Mean corpuscular hemoglobin concentration (MCHC)", "Leukocytes", "Basophils", "Mean corpuscular hemoglobin (MCH)", "Eosinophils", "Mean corpuscular volume (MCV)", "Monocytes", "Red blood cell distribution width (RDW)", "Serum Glucose", "Respiratory Syncytial Virus", "Influenza A",
+        "Influenza B", "Parainfluenza 1", "CoronavirusNL63", "Rhinovirus/Enterovirus",  "Coronavirus HKU1", "Parainfluenza 3", "Chlamydophila pneumoniae", "Adenovirus", "Parainfluenza 4", "Coronavirus229E", "CoronavirusOC43", "Inf A H1N1 2009", "Bordetella pertussis", "Metapneumovirus", 
+        "Parainfluenza 2", "Neutrophils", "Urea", "Proteina C reativa mg/dL", "Creatinine", "Potassium", "Sodium", "Influenza B, rapid test", "Influenza A, rapid test", "Alanine transaminase", "Aspartate transaminase", "Gamma-glutamyltransferase ", "Total Bilirubin", "Direct Bilirubin", 
+        "Indirect Bilirubin", "Alkaline phosphatase", "Ionized calcium ", "Strepto A", "Magnesium", "pCO2 (venous blood gas analysis)", "Hb saturation (venous blood gas analysis)", "Base excess (venous blood gas analysis)", "pO2 (venous blood gas analysis)", "Fio2 (venous blood gas analysis)",
+        "Total CO2 (venous blood gas analysis)", "pH (venous blood gas analysis)", "HCO3 (venous blood gas analysis)", "Rods #", "Segmented", "Promyelocytes", "Metamyelocytes", "Myelocytes", "Myeloblasts", "Urine - Esterase", "Urine - pH", "Urine - Yeasts", "Urine - Granular cylinders",
+        "Urine - Hyaline cylinders", "Urine - Hemoglobin", "Urine - Bile pigments", "Urine - Ketone Bodies", "Urine - Nitrite", "Urine - Urobilinogen", "Urine - Protein","Urine - Density", "Relationship (Patient/Normal)", "International normalized ratio (INR)", "Urine - Red blood cells",
+        "Lactic Dehydrogenase", "Creatine phosphokinase (CPK) ", "Ferritin", "Vitamin B12", "Arterial Lactic Acid", "Lipase dosage", "pCO2 (arterial blood gas analysis)", "Base excess (arterial blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)",
+        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)"]
+
 #Plota gráfico, salvo na mesma pasta do código
 shap.summary_plot(shap_values[1], X_train, show=False, max_display=10, feature_names=nomes)
-plt.savefig('exam_all_29.png', bbox_inches='tight')
+plt.savefig('exam_all.png', bbox_inches='tight')
+
