@@ -16,15 +16,15 @@ import numpy as np
 dataset = pd.read_excel(r'dataset.xlsx')
 
 #Substituição de dados não numéricos em representações numéricas
-dataset = dataset.replace(['negative'], float(0))
-dataset= dataset.replace(['positive'], float(1))
-dataset = dataset.replace(['not_detected'], float(0))
-dataset= dataset.replace(['detected'], float(1))
+dataset = dataset.replace(['negative'], 0)
+dataset= dataset.replace(['positive'], 1)
+dataset = dataset.replace(['not_detected'], 0)
+dataset= dataset.replace(['detected'], 1)
 dataset= dataset.replace(['not_done'], float(-1))
 
 #Concatena os valores das colunas referentes a tratamento em enfermaria, na unidade semi-intensiva e na unidade intensiva e armazena em outro dataframe
 df1 = dataset['Patient addmited to regular ward (1=yes, 0=no)'].map(str) + dataset['Patient addmited to semi-intensive unit (1=yes, 0=no)'].map(str) + dataset['Patient addmited to intensive care unit (1=yes, 0=no)'].map(str)
-print (df1)
+
 #Para considerar tratamento em enfermaria, dado é 100
 #Para considerar na semi-intensiva, dado é 010
 #Para considerar na uti, dado é 001
@@ -43,7 +43,7 @@ y = dataset.loc[:, "Local de tratamento"]
 
 #Separando a porção de treino e de teste
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=60)
 
 # Feature Scalling
 from sklearn.preprocessing import StandardScaler
@@ -62,25 +62,6 @@ y_pred = rf.predict(X_test)
 #Relatório de texto, mostrando as principais métricas de classificação
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 print(classification_report(y_test,y_pred))
-
-
-from sklearn.model_selection import StratifiedKFold
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score
-
-def intervalo_prec(results):
-    mean = results.mean()
-    print('Precisão média: {:.2f}%'.format(mean*100))
-
-cv = StratifiedKFold(n_splits = 5, shuffle = True)
-el = LogisticRegression(solver='saga')
-results = cross_val_score(rf, X_train, y_train, cv = cv, scoring = 'precision_macro') #scores de acurácia
-intervalo_prec(results)
-
-from sklearn import metrics
-predict = rf.predict(X_test)
-accuracy = accuracy_score(y_test, predict) * 100
-print('Acurácia: ', accuracy, '%')
 
 
 import shap
