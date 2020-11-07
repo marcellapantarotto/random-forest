@@ -32,7 +32,7 @@ dataset = dataset.replace(['<1000'], float(random.uniform(0,999)))
 #Preenchimento de valores vazios
 dataset=dataset.fillna(dataset.median ())
 
-print(dataset["Urine - Leukocytes"].unique())
+# print(dataset["Urine - Leukocytes"].unique())
 
 #Setando valores de Feature set (conjunto de variáveis) e labels
 X = dataset.loc[:, ["Patient age quantile", "Patient addmited to regular ward (1=yes, 0=no)", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", 
@@ -91,5 +91,5 @@ nomes = ["Patient age quantile", "Patient addmited to regular ward (1=yes, 0=no)
 
 #Plota gráfico, salvo na mesma pasta do código
 shap.summary_plot(shap_values[1], X_train, show=False, max_display=10, feature_names=nomes)
-plt.savefig('exam_all_all.png', bbox_inches='tight')
+plt.savefig('melhores_exames_questao1.png', bbox_inches='tight')
 
