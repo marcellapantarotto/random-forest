@@ -6,14 +6,13 @@
 # Ana Luísa Salvador Alvarez - 16/0048036
 # Marcella Pantarotto - 13/0143880
 # Liguagem utilizada: Python
-# Bibliotecas utilizadas: Pandas, Numpy, Scikit Learn, Shap, Matplotlib e as dependências delas
+# Bibliotecas utilizadas: Pandas, Scikit Learn, Shap, Matplotlib e as dependências delas
 
 
 import pandas as pd
-import numpy as np
 import random
 
-#Importação dos dados obtidos na planilha baixada do keggel
+#Importação dos dados obtidos na planilha baixada do Kaggel
 dataset = pd.read_excel(r'dataset.xlsx')
 
 #Substituição de dados não numéricos em representações numéricas
@@ -99,7 +98,7 @@ import matplotlib.pyplot as plt
 # Carrega visualização JS
 shap.initjs()
 
-# Explioca as predições do modelo usando valores SHAP
+# Explica as predições do modelo usando valores SHAP
 explainer = shap.TreeExplainer(rf)
 shap_values = explainer.shap_values(X_train, approximate=True)
 
