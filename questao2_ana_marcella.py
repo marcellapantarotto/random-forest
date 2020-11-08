@@ -41,7 +41,8 @@ dataset = pd.concat([dataset, df1], axis=1)
 dataset = dataset.rename({0: 'Local de tratamento'}, axis='columns')
 
 #Preenchimento de valores vazios
-dataset=dataset.fillna(dataset.median ())
+dataset=dataset.fillna(dataset.median())
+dataset=dataset.fillna(0)
 
 #Setando valores de Feature set (conjunto de variáveis) e labels
 X = dataset.loc[:, ["Patient age quantile", "Patient addmited to regular ward (1=yes, 0=no)", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", 
@@ -52,7 +53,7 @@ X = dataset.loc[:, ["Patient age quantile", "Patient addmited to regular ward (1
         "Total CO2 (venous blood gas analysis)", "pH (venous blood gas analysis)", "HCO3 (venous blood gas analysis)", "Rods #", "Segmented", "Promyelocytes", "Metamyelocytes", "Myelocytes", "Myeloblasts", "Urine - Esterase", "Urine - pH", "Urine - Yeasts", "Urine - Granular cylinders",
         "Urine - Hyaline cylinders", "Urine - Hemoglobin", "Urine - Bile pigments", "Urine - Ketone Bodies", "Urine - Nitrite", "Urine - Urobilinogen", "Urine - Protein","Urine - Density", "Relationship (Patient/Normal)", "International normalized ratio (INR)", "Urine - Red blood cells",
         "Lactic Dehydrogenase", "Creatine phosphokinase (CPK) ", "Ferritin", "Vitamin B12", "Arterial Lactic Acid", "Lipase dosage", "pCO2 (arterial blood gas analysis)", "Base excess (arterial blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)",
-        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)", "Urine - Leukocytes"]]
+        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)", "Urine - Leukocytes", "D-Dimer", "Mycoplasma pneumoniae", "Urine - Sugar", "Partial thromboplastin time (PTT) ", "Prothrombin time (PT), Activity"]]
 y = dataset.loc[:, "Local de tratamento"]
 
 #Separando a porção de treino e de teste
@@ -96,7 +97,7 @@ nomes = ["Patient age quantile", "Patient addmited to regular ward (1=yes, 0=no)
         "Total CO2 (venous blood gas analysis)", "pH (venous blood gas analysis)", "HCO3 (venous blood gas analysis)", "Rods #", "Segmented", "Promyelocytes", "Metamyelocytes", "Myelocytes", "Myeloblasts", "Urine - Esterase", "Urine - pH", "Urine - Yeasts", "Urine - Granular cylinders",
         "Urine - Hyaline cylinders", "Urine - Hemoglobin", "Urine - Bile pigments", "Urine - Ketone Bodies", "Urine - Nitrite", "Urine - Urobilinogen", "Urine - Protein","Urine - Density", "Relationship (Patient/Normal)", "International normalized ratio (INR)", "Urine - Red blood cells",
         "Lactic Dehydrogenase", "Creatine phosphokinase (CPK) ", "Ferritin", "Vitamin B12", "Arterial Lactic Acid", "Lipase dosage", "pCO2 (arterial blood gas analysis)", "Base excess (arterial blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)",
-        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)", "Urine - Leukocytes"]
+        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)", "Urine - Leukocytes", "D-Dimer", "Mycoplasma pneumoniae", "Urine - Sugar", "Partial thromboplastin time (PTT) ", "Prothrombin time (PT), Activity"]
 
 #Plota gráfico, salvo na mesma pasta do código
 shap.summary_plot(shap_values[1], X_train, show=False, max_display=10,feature_names=nomes)
