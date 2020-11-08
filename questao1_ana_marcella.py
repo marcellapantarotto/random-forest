@@ -27,13 +27,25 @@ dataset= dataset.replace(['present'], float(1))
 dataset = dataset.replace(['normal'], float(0))
 dataset = dataset.replace(['Não Realizado'], float(-1))
 dataset = dataset.replace(['<1000'], float(random.uniform(0,999)))
-
+dataset = dataset.replace(['clear'], float(1))
+dataset = dataset.replace(['altered_coloring'], float(2))
+dataset = dataset.replace(['lightly_cloudy'], float(3))
+dataset = dataset.replace(['cloudy'], float(4))
+dataset = dataset.replace(['light_yellow'], float(1))
+dataset = dataset.replace(['citrus_yellow'], float(2))
+dataset = dataset.replace(['yellow'], float(3))
+dataset = dataset.replace(['orange'], float(4))
+dataset = dataset.replace(['Ausentes'], float(-1))
+dataset = dataset.replace(['Urato Amorfo --+'], float(1))
+dataset = dataset.replace(['Urato Amorfo +++'], float(2))
+dataset = dataset.replace(['Oxalato de Cálcio -++'], float(3))
+dataset = dataset.replace(['Oxalato de Cálcio +++'], float(4))
 
 #Preenchimento de valores vazios
 dataset=dataset.fillna(dataset.median())
 dataset=dataset.fillna(0)
 
-# print(dataset["D-Dimer"].unique())
+# print(dataset["Urine - Color"].unique())
 
 #Setando valores de Feature set (conjunto de variáveis) e labels
 X = dataset.loc[:, ["Patient age quantile", "Patient addmited to regular ward (1=yes, 0=no)", "Patient addmited to semi-intensive unit (1=yes, 0=no)", "Patient addmited to intensive care unit (1=yes, 0=no)", "Hematocrit", "Hemoglobin", "Platelets", "Mean platelet volume ", "Red blood Cells", "Lymphocytes", 
@@ -44,7 +56,7 @@ X = dataset.loc[:, ["Patient age quantile", "Patient addmited to regular ward (1
         "Total CO2 (venous blood gas analysis)", "pH (venous blood gas analysis)", "HCO3 (venous blood gas analysis)", "Rods #", "Segmented", "Promyelocytes", "Metamyelocytes", "Myelocytes", "Myeloblasts", "Urine - Esterase", "Urine - pH", "Urine - Yeasts", "Urine - Granular cylinders",
         "Urine - Hyaline cylinders", "Urine - Hemoglobin", "Urine - Bile pigments", "Urine - Ketone Bodies", "Urine - Nitrite", "Urine - Urobilinogen", "Urine - Protein","Urine - Density", "Relationship (Patient/Normal)", "International normalized ratio (INR)", "Urine - Red blood cells",
         "Lactic Dehydrogenase", "Creatine phosphokinase (CPK) ", "Ferritin", "Vitamin B12", "Arterial Lactic Acid", "Lipase dosage", "pCO2 (arterial blood gas analysis)", "Base excess (arterial blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)",
-        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)", "Urine - Leukocytes", "D-Dimer", "Mycoplasma pneumoniae", "Urine - Sugar", "Partial thromboplastin time (PTT) ", "Prothrombin time (PT), Activity"]]
+        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)", "Urine - Leukocytes", "D-Dimer", "Mycoplasma pneumoniae", "Urine - Sugar", "Partial thromboplastin time (PTT) ", "Prothrombin time (PT), Activity", "Urine - Aspect", "Urine - Crystals", "Urine - Color"]]
 
 y = dataset.loc[:, "SARS-Cov-2 exam result"]
 
@@ -88,9 +100,9 @@ nomes = ["Patient age quantile", "Patient addmited to regular ward (1=yes, 0=no)
         "Total CO2 (venous blood gas analysis)", "pH (venous blood gas analysis)", "HCO3 (venous blood gas analysis)", "Rods #", "Segmented", "Promyelocytes", "Metamyelocytes", "Myelocytes", "Myeloblasts", "Urine - Esterase", "Urine - pH", "Urine - Yeasts", "Urine - Granular cylinders",
         "Urine - Hyaline cylinders", "Urine - Hemoglobin", "Urine - Bile pigments", "Urine - Ketone Bodies", "Urine - Nitrite", "Urine - Urobilinogen", "Urine - Protein","Urine - Density", "Relationship (Patient/Normal)", "International normalized ratio (INR)", "Urine - Red blood cells",
         "Lactic Dehydrogenase", "Creatine phosphokinase (CPK) ", "Ferritin", "Vitamin B12", "Arterial Lactic Acid", "Lipase dosage", "pCO2 (arterial blood gas analysis)", "Base excess (arterial blood gas analysis)", "pH (arterial blood gas analysis)", "Total CO2 (arterial blood gas analysis)",
-        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)", "Urine - Leukocytes", "D-Dimer", "Mycoplasma pneumoniae", "Urine - Sugar", "Partial thromboplastin time (PTT) ", "Prothrombin time (PT), Activity"]
+        "HCO3 (arterial blood gas analysis)", "pO2 (arterial blood gas analysis)", "Arteiral Fio2", "Phosphor", "ctO2 (arterial blood gas analysis)", "Urine - Leukocytes", "D-Dimer", "Mycoplasma pneumoniae", "Urine - Sugar", "Partial thromboplastin time (PTT) ", "Prothrombin time (PT), Activity",
+        "Urine - Aspect", "Urine - Crystals", "Urine - Color"]
 
 #Plota gráfico, salvo na mesma pasta do código
 shap.summary_plot(shap_values[1], X_train, show=False, max_display=10, feature_names=nomes)
 plt.savefig('melhores_exames_questao1.png', bbox_inches='tight')
-
